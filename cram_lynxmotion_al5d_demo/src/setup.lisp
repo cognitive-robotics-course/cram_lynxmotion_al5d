@@ -18,7 +18,7 @@
                        (when kitchen-urdf-string
                          (setf *kitchen-urdf* (cl-urdf:parse-urdf
                                                kitchen-urdf-string)))))))
-    ;; set pepper URDF root link to be base_footprint not odom,
+    ;; set Lynxmotion AL5D URDF root link to be base_footprint not odom,
     ;; as with odom lots of problems concerning object-pose in bullet happen
     (setf (slot-value rob-int:*robot-urdf* 'cl-urdf:root-link)
           (or (gethash cram-tf:*robot-base-frame*
@@ -66,6 +66,6 @@
 
   (cram-bullet-reasoning:clear-costmap-vis-object))
 
-  ; (btr:add-objects-to-mesh-list "cram_pepper_demo" :directory "resource" :extension "stl"))
+  ; (btr:add-objects-to-mesh-list "cram_lynxmotion_al5d_demo" :directory "resource" :extension "stl"))
 
 (roslisp-utilities:register-ros-init-function init-projection)

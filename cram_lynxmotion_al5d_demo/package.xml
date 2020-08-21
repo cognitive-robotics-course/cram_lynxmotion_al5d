@@ -1,13 +1,12 @@
 <package format="2">
   <name>cram_lynxmotion_al5d_demo</name>
-  <version>0.7.0</version>
-  <description>Demo code for assembly objects with pepper</description>
-  <author>Gayane Kazhoyan</author>
-  <maintainer email="kazhoyan@cs.uni-bremen.de">Gayane Kazhoyan</maintainer>
+  <version>0.1.0</version>
+  <description>Demo code for assembly objects with Lynxmotion AL5D description</description>
+  <author>Vinny Adjibi</author>
+  <maintainer email="vadjibi@andrew.cmu.edu">Gayane Kazhoyan</maintainer>
   <license>BSD</license>
 
-  <url type="website">http://cram-system.org</url>
-  <url type="repository">http://github.com/cram2/cram</url>
+  <url type="repository">https://github.com/CRAM-Team/cram_lynxmotion_al5d</url>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -31,7 +30,6 @@
   <depend>cram_mobile_pick_place_plans</depend>
   <depend>cram_robot_interfaces</depend>
   <depend>cram_object_knowledge</depend>
-  <!-- <depend>cram_robosherlock</depend> -->
 
   <depend>cram_physics_utils</depend>
   <depend>cl_bullet</depend>
@@ -47,16 +45,13 @@
   <depend>cram_urdf_projection</depend>
   <depend>cram_lynxmotion_al5d_description</depend>
   <depend>cram_fetch_deliver_plans</depend>
-  <!-- <depend>cram_pepper_low_level</depend> -->
-  <!-- <depend>cram_process_modules</depend> -->
-  <!-- <depend>cram_pepper_process_modules</depend> -->
-  <!-- <depend>cram_pepper_plans</depend> -->
-
+  
   <!-- launch file -->
   <exec_depend>iai_maps</exec_depend>
   <exec_depend>iai_kitchen</exec_depend>
   <exec_depend>map_server</exec_depend>
-  <!-- <exec_depend>kdl_ik_service</exec_depend> -->
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>lynxmotion_al5d_description</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
   
 </package>

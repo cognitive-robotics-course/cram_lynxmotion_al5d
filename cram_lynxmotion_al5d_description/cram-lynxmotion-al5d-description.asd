@@ -1,5 +1,4 @@
-
-(defsystem cram-pepper-description
+(defsystem cram-lynxmotion-al5d-description
   :author "Vinny Adjibi"
   :maintainer "Vinny Adjibi"
   :license "BSD"

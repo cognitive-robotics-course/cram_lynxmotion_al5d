@@ -2,18 +2,17 @@
 
 (def-fact-group al5d-metadata (robot
                                robot-base-frame 
+                               robot-odom-frame
                                arm
                                camera-frame
                                camera-minimal-height
                                camera-maximal-height)
   (<- (robot al5d))
 
-  ;(<- (robot-odom-frame pepper "odom"))
+  (<- (robot-odom-frame al5d "world"))
+  (<- (robot-base-frame al5d "robot_support"))
 
-  (<- (robot-base-frame al5d "base_link"))
-  ;(<- (robot-torso-link-joint pepper "torse" "base_link_fixedjoint"))
-
-  (<- (arm al5d :left))
+  (<- (arm al5d :right))
 
   (<- (camera-frame al5d "camera_link"))
 

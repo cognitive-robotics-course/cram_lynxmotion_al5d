@@ -37,7 +37,7 @@
                cram-manipulation-interfaces ; for standard rotations
 
                cram-urdf-projection      ; for with-simulated-robot
-               cram-pepper-description
+               cram-lynxmotion-al5d-description
                cram-process-modules
                cram-fetch-deliver-plans
 
