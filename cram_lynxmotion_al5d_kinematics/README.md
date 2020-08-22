@@ -75,6 +75,8 @@ In order to run the exercice, please open a terminal and execute `roslisp_repl` 
 
 (in-package :al5d)
 
+(roslisp-utilities:startup-ros) ;This is a very important step which starts a node and creates the necessary publisher and subscribers to run the program. 
+
 (defparameter *grasping-motion* (desig:a motion (type grasping) (distance 0.03))) ; Defines a motion designator for opening the gripper
 
 (perform-some-motion *grasping-motion*) ;Resolves a process modules and execute the necessary program
