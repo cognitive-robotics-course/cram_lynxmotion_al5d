@@ -14,16 +14,16 @@ The following sections will explain the different capabilities of the package al
 2. [Tutorials](#tutorials)
 
 ### Technical reference documentation
-This section explains the various designators, process modules and fluents available for use in this package. It is intended at developers willing to extend the functionalities for various exercises including but not limited to picking and placing bricks with the robot simulator in Gazebo.
+This section explains the various designators, process modules and fluents available for use in this package. It is intended for developers willing to extend the functionalities for various exercises including but not limited to picking and placing bricks with the robot simulator in Gazebo.
 
 #### Motion designators
 For all the designators under this section, the structure used to explain them will be comprised of a name for the motion followed by *the description in italics* and a brief description beneath it. All the values are specified either in metres or radians respectively for distances and angles.
 
-+ Moving - *(desig:a motion (type moving) (position (<x> <y> <z>)) (pitch <pitch>) (yaw <yaw>))*
++ Moving - *(desig:a motion (type moving) (position (\<x\> \<y\> \<z\>)) (pitch \<pitch\>) (yaw \<yaw\>))*
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This motion designator gets resolved to an action which sends the robot simulator's T5 frame to the desired position. That means that the specified position is with respect to the wrist axes. The pitch and yaw represent the pose of the object to grasp and represent respectively the rotations around the x and y axis.
 
-+ Grasping - *(desig:a motion (type grasping) (distance <d>))*
++ Grasping - *(desig:a motion (type grasping) (distance \<d\>))*
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This motion designator gets resolved to a function which causes the robot simulator to open its gripper with the specified distance.
 
@@ -37,19 +37,19 @@ A single process module has been integrated to this package and handles all the 
 
 For all the action designators under this section, the structure used to explain them will be comprised of a name for the motion followed by *the description in italics* and a brief description beneath it. All the values are specified either in metres or radians respectively for distances and angles.
 
-+ Picking - *(desig:an action (type picking) (position (<x> <y> <z>)) (orientation <angle>)*
++ Picking - *(desig:an action (type picking) (position (\<x\> \<y\> \<z\>)) (orientation \<angle\>)*
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This action represents a set of motions performed in order to pick a brick a the specified position and orientation. It starts by opening the gripper, going to an approach pose, picking the brick and then return to an approach pose.
 
-+ Approaching - *(desig:an action (type approaching) (position (<x> <y> <z>)) (orientation <angle>)*
++ Approaching - *(desig:an action (type approaching) (position (\<x\> \<y\> \<z\>)) (orientation \<angle\>)*
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This action represents the approach position which takes the wrist (i.e embedding of the T5 frame) at a 0.1 metres distance away from the specified position.
 
-+ Placing - *(desig:an action (type picking) (position (<x> <y> <z>)) (orientation <angle>)*
++ Placing - *(desig:an action (type picking) (position (\<x\> \<y\> \<z\>)) (orientation \<angle\>)*
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This action represents the set of motions and actions to complete in order to place a block to a certain position and orientation. At the end of the action, the robot simulator stays at the approach pose.
 
-+ Picking and placing - *(desig:an action (type picking-and-placing) (from (<src-x> <src-y> <src-z>)) (is-heading <src-orientation>) (to (<dst-x> <dst-y> <dst-z>)) (will-head <dst-orientation>)*
++ Picking and placing - *(desig:an action (type picking-and-placing) (from (\<src-x\> \<src-y\> \<src-z\>)) (is-heading \<src-orientation\>) (to (\<dst-x\> \<dst-y\> \<dst-z\>)) (will-head \<dst-orientation\>)*
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This represents a full pick and place exercise with the parameters used to specified the start and end pose of a brick to be used.
 
