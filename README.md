@@ -4,7 +4,7 @@
 
 ## About the package
 
-This represents a set of packages created to control the [robot simulator of the Lunxmotion AL5D robot arm](https://github.com/CRAM-Team/lynxmotion_al5d_description) using the CRAM Programming Language (CPL). It comprises three different packages namely:
+This represents a set of packages created to control the [robot simulator of the Lynxmotion AL5D robot arm](https://github.com/CRAM-Team/lynxmotion_al5d_description) using the CRAM Programming Language (CPL). It comprises three different packages namely:
 
 + **cram_lynxmotion_al5d_description**
     + [ ] not working
