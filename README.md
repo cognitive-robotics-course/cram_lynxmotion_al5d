@@ -24,14 +24,19 @@ This represents a set of packages created to control the [robot simulator of the
 First clone the package to the *cram* subdirectory under the ros workspace by doing the following.
 ```bash
 roscd
+
 cd ../src/cram
+
 git clone https://github.com/CRAM-Team/cram_lynxmotion_al5d.git
 ```
 
 After that, you will have to build the package by running the following commands:
 
 ```bash 
-roscd; cd ..
+roscd
+
+cd ..
+
 catkin_make
 ```
 After that, you are ready to run the package.
