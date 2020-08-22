@@ -35,7 +35,7 @@ A single process module has been integrated to this package and handles all the 
 
 #### Action designators
 
-For all the action designators under this section, the structure used to explain them will be comprised of a name for the motion followed by *the description in italics* and a brief description beneath it. All the values are specified either in metres or radians respectively for distances and angles.
+For all the action designators under this section, the structure used to explain them will be comprised of a name for the action followed by *the description in italics* and a brief description beneath it. All the values are specified either in metres or radians respectively for distances and angles.
 
 + Picking - *(desig:an action (type picking) (position (\<x\> \<y\> \<z\>)) (orientation \<angle\>)*
 
@@ -66,7 +66,7 @@ This fluent represents the current state of all the joints connected to the robo
 
 
 ### Tutorials
-This section will present a set of usage of the package for demonstration purpose. It doesn't explicitly specifies how to spawn the bricks that here is assumed to be know to the user. However, independently of that, the below code should work as described.
+This section will present a set of usage of the package for demonstration purpose. It doesn't explicitly specify how to spawn the bricks that here is assumed to be known by the user. However, independently of that, the below code should work as described.
 
 In order to run the exercice, please open a terminal and execute `roslisp_repl` to start a new LISP session with ROS. You can then type the below function calls at the interpreter prompt.
 
