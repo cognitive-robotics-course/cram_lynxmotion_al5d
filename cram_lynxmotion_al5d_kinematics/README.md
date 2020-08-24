@@ -81,7 +81,7 @@ In order to run the exercice, please open a terminal and execute `roslisp_repl` 
 
 (perform-some-motion *grasping-motion*) ;Resolves a process modules and execute the necessary program
 
-(defparameter *pick-and-place-exercice* (desig:an action (type picking-and-placing) (from (0 0.200 0)) (heading 0) (to (0.100 0.100 0)) (will-head 3.14159))) ; Defines an action designator to run a pick and place exercice
+(defparameter *pick-and-place-exercice* (desig:an action (type picking-and-placing) (from (0 0.200 0)) (is-heading 0) (to (0.100 0.100 0)) (will-head 3.14159))) ; Defines an action designator to run a pick and place exercice
 
 (top-level
     (with-process-modules-running (lynxmotion-al5d-navigation)
