@@ -30,6 +30,7 @@
 
 ;;; Get the current positions from the subscriber. Values are set to zero
 (defvar *current-positions* '(0.0 0.0 0.0 0.0 0.0 0.0)' "Current joint positions")
+(defvar *home-position* '(0.0 1.57 -1.57 0.0 0.0 0.03175)' "Joint values for the home positions")
 
 (defun to-degrees (angle)
 	"Returns the value of a radian angle in degrees"
@@ -135,9 +136,12 @@
 
 (defun set-joint-positions (joint-positions)
 	"Receives the joint positions and publishes them to the robot"
-    ;;; The value for Joint3 should be altered before publishing to the robot
 	(publish-joint-positions joint-positions)
 	(sleep *default-sleep-time*))
+
+(defun go-home ()
+    "Sends the robotic arm to home"
+    (set-joint-positions *home-position*))
 
 (def-cram-function move-to (goal)
 	"Receives a goal destination as a pose, gets the necessary joint angles from the robot
