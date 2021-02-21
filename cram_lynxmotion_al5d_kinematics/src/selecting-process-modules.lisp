@@ -4,6 +4,8 @@
     (<- (available-process-module lynxmotion-al5d-navigation))
 
     (<- (matching-process-module ?desig lynxmotion-al5d-navigation)
+        (desig-prop ?desig (:type :now-moving)))
+    (<- (matching-process-module ?desig lynxmotion-al5d-navigation)
         (desig-prop ?desig (:type :moving)))
     (<- (matching-process-module ?desig lynxmotion-al5d-navigation)
         (desig-prop ?desig (:type :grasping))))

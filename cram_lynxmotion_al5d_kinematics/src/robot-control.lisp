@@ -1,32 +1,10 @@
 (in-package :al5d)
 
-;;; Setting parameters to be used in the program to control the physical robot
-
-(defparameter *max-filename-length* 80 "Maximum length of the configuration file")
-(defparameter *string-length* 200 "Maximum length of a string")
-(defparameter *key-length* 20 "Length of a key in the configuration file")
-(defparameter *number-of-keys* 9 "Number of keys expected in the configuration file")
-    
-;;; Parameters for the servo control
-(defparameter *comand-size* 200 "size of the comand")
-(defparameter *max-servos* 32 "maximum number of servos")
-(defparameter *min-pw* 750 "lowest pulse width")
-(defparameter *max-pw* 2250 "highest pulse width")
-
-;;; Working envelope in m
-(defparameter *min-x* -0.130d0)
-(defparameter *max-x* 0.130d0)
-(defparameter *min-y* 0.080d0)
-(defparameter *max-y* 0.330d0)
-(defparameter *min-z* 0.00d0)
-(defparameter *max-z* 0.380d0)
-
 ;;; Kinematics: arm dimensions (metres) for AL5D arm
 (defparameter *d1* 0.070 "Base height to X/Y plane")
 (defparameter *a3* 0.146d0 "Shoulder-to-elbow \"bone\"")
 (defparameter *a4* 0.187d0 "Elbow-to-wrist \"bone\"")
 (defparameter *ez* 0.100d0 "Gripper length")
-
 
 ;;; Get the current positions from the subscriber. Values are set to zero
 (defvar *current-positions* '(0.0 0.0 0.0 0.0 0.0 0.0)' "Current joint positions")
@@ -114,17 +92,11 @@
 					
 					(if *debug*
 						(progn
-							(format t "Joint 1 (degrees): ~,2F ~%" bas_angle_d)
-							(format t "Joint 2 (degrees): ~,2F ~%" shl_angle_d)
-							(format t "Joint 3 (degrees): ~,2F ~%" elb_angle_d)
-							(format t "Joint 4 (degrees): ~,2F ~%" wri_pitch_angle_d)
-							(format t "Joint 5 (degrees): ~,2F ~%~%" wri_yaw_angle_d)
-
-							(format t "Joint 1 (radians): ~,2F ~%" bas_angle_r)
-							(format t "Joint 2 (radians): ~,2F ~%" shl_angle_r)
-							(format t "Joint 3 (radians): ~,2F ~%" elb_angle_r)
-							(format t "Joint 4 (radians): ~,2F ~%" (to-radians wri_pitch_angle_d))
-							(format t "Joint 5 (radians): ~,2F ~%~%" (to-radians wri_yaw_angle_d))))
+							(format t "Joint 1 : ~,2F ~%" bas_angle_r)
+							(format t "Joint 2 : ~,2F ~%" shl_angle_r)
+							(format t "Joint 3 : ~,2F ~%" elb_angle_r)
+							(format t "Joint 4 : ~,2F ~%" (to-radians wri_pitch_angle_d))
+							(format t "Joint 5 : ~,2F ~%~%" (to-radians wri_yaw_angle_d))))
 					;;; Return the list of computed angle
 					(list 
 						bas_angle_r 
@@ -174,3 +146,20 @@
         (when *debug*
             (format t "Sending joints ~A~%" joint-positions))
         (set-joint-positions joint-positions)))
+
+(def-cram-function move-bis (destination)
+    "Takes a cl-transforms:pose object and sends the robot at the
+     specified position"
+
+    (let* ((position (cl-transforms:origin destination))
+           (orientation (cl-transforms:orientation destination))
+           (angles (cl-transforms:quaternion->euler orientation)))
+
+		(set-joint-positions
+			(compute-joint-angles 
+				; XYZ values
+				(cl-transforms:x position)
+				(cl-transforms:y position)
+				(cl-transforms:z position)
+                (second angles)
+                (sixth angles)))))			

@@ -2,7 +2,7 @@
     :author "Vinny Adjibi"
     :license "BSD"
 
-    :depends-on (roslisp roslisp-utilities cl-transforms cram-language cram-tf sensor_msgs-msg std_msgs-msg cram-designators cram-prolog cram-process-modules cram-language-designator-support cram-executive)
+    :depends-on (roslisp roslisp-utilities cram-language cram-tf sensor_msgs-msg std_msgs-msg cram-designators cram-prolog cram-process-modules cram-language-designator-support cram-executive)
 
     :components
         ((:module "src"
@@ -12,6 +12,7 @@
                 (:file "joint-states" :depends-on ("package"))
                 (:file "misc" :depends-on ("package"))
                 (:file "motion-designators" :depends-on ("package"))
+                (:file "location-designators" :depends-on ("package"))
                 (:file "action-designators" :depends-on ("package"))
                 (:file "position-publisher" :depends-on ("package" "joint-states" "misc"))
                 (:file "robot-control" :depends-on ("package" "joint-states" "misc" "position-publisher"))

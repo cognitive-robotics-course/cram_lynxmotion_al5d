@@ -7,6 +7,8 @@
         (ecase command
             (move
                 (move-to motion))
+            (move-bis
+                (move-bis motion))
             (grasp 
                 (grasp motion)))))
 
