@@ -27,83 +27,84 @@
 			(<= value MOST-NEGATIVE-DOUBLE-FLOAT) 
 					(>= value MOST-POSITIVE-DOUBLE-FLOAT))))
 
-(defun compute-joint-angles (x y z pitch yaw)
-	"Transform from wrist pose (x, y, z, pitch, and yaw in degrees) to joint angles using the inverse kinematics
+(defun compute-joint-angles (?object-pose)
+	"Transform from wrist pose to joint angles using the inverse kinematics
 	 If resulting arm position is physically unreachable, return false.
 	 Otherwise, return the corresponding joint angles in radians."
 	
-	; Print the values to the terminal if the debug flag is set
-	(if *debug*
-		(format t "computeJointAngles(): x ~,2F, y ~,2F, z ~,2F, pitch ~,2F, yaw ~,2F~%" x y z pitch yaw))
+    (let* ((?position (cl-transforms:origin ?object-pose))
+           (?orientation (cl-transforms:orientation ?object-pose))
+           (angles (cl-transforms:quaternion->euler ?orientation))
+           (x (cl-transforms:x ?position))
+           (y (cl-transforms:y ?position))
+           (z (cl-transforms:z ?position))
+           (pitch (fourth angles))
+           (yaw (sixth angles)))
+        ; Print the values to the terminal if the debug flag is set
+        (if *debug*
+            (format t "computeJointAngles(): x ~,2F, y ~,2F, z ~,2F, pitch ~,2F, yaw ~,2F~%" x y z pitch yaw))
 
-	(let* (
-		(hum_sq (* *a3* *a3*))
-		(uln_sq (* *a4* *a4*))
+            (let* (
+                (hum_sq (* *a3* *a3*))
+                (uln_sq (* *a4* *a4*))
+                ; Grip angles in randians for computations
+                (bas_angle (atan x y))
+                (rdist (sqrt (+ (* x x) (* y y))))
+                ; Wrist position
+                (wrist_z (- z *d1*))
+                (wrist_y rdist)
+                ; Shoulder to wrist distance (aka sw)
+                (sw (+ (* wrist_z wrist_z) (* wrist_y wrist_y)))
+                (sw_sqrt (sqrt sw))
+                ; sw angle to ground
+                (a1 (atan wrist_z wrist_y))
+                ; sw angle to A3
+                (a2 (acos (/ (+ (- hum_sq uln_sq) sw) (* 2 *a3* sw_sqrt))))
+                ; shoulder angle
+                (shl_angle (+ a1 a2)))
 
-		; Grip angles in randians for computations
-		(pitch_r (to-radians pitch))
-		(yaw_r (to-radians yaw))
-		(bas_angle_r (atan x y))
-		(bas_angle_d (to-degrees bas_angle_r))
-		(rdist (sqrt (+ (* x x) (* y y))))
+                (if (is-nan-or-infinity shl_angle)
+                    nil
+                (let* (
+                    (elb_angle (acos 
+                                (/ (- (+ hum_sq uln_sq) sw)
+                                (* 2 *a3* *a4*)))))
+                (if (is-nan-or-infinity elb_angle)
+                    nil
+                    (let* (
+                        (elb_angle (* -1 (- pi elb_angle)))
+                        (wri_yaw_angle nil)
+                        (wri_roll_angle (- (+ (/ pi 2) pitch) (+ elb_angle shl_angle))))
 
-		; Wrist position
-		(wrist_z (- z *d1*))
-		(wrist_y rdist)
-
-		; Shoulder to wrist distance (aka sw)
-		(sw (+ (* wrist_z wrist_z) (* wrist_y wrist_y)))
-		(sw_sqrt (sqrt sw))
-
-		; sw angle to ground
-		(a1 (atan wrist_z wrist_y))
-
-		; sw angle to A3
-		(a2 (acos (/ (+ (- hum_sq uln_sq) sw) (* 2 *a3* sw_sqrt))))
-
-		; shoulder angle
-		(shl_angle_r (+ a1 a2)))
-
-		(if (is-nan-or-infinity shl_angle_r)
-			nil
-			(let* (
-				(shl_angle_d (to-degrees shl_angle_r))
-				(a1_d (to-degrees a1))
-				(a2_d (to-degrees a2))
-				(elb_angle_r (acos 
-							(/ (- (+ hum_sq uln_sq) sw)
-							(* 2 *a3* *a4*)))))
-			(if (is-nan-or-infinity elb_angle_r)
-				nil
-				(let* (
-					(elb_angle_r (* -1 elb_angle_r))
-                    (elb_angle_r (* -1 (+ pi elb_angle_r)))
-					(elb_angle_d (to-degrees elb_angle_r))
-					(wri_yaw_angle_d nil)
-					(wri_pitch_angle_d (- (+ 90 pitch) (+ elb_angle_d shl_angle_d))))
-
-				(if (equal 0 (round pitch))
-					(setf wri_yaw_angle_d (+ yaw bas_angle_d 90))
+				(if (equal 0 (round (to-degrees pitch)))
+					(setf wri_yaw_angle (+ yaw bas_angle (/ pi 2)))
 					; else here
-					(if (or (equal -180 (round pitch)) (equal 180 (round pitch)))
-						(setf wri_yaw_angle_d (+ (- yaw bas_angle_d) 90))
+					(if (equal 0 (mod (round (to-degrees pitch)) 180))
+						(setf wri_yaw_angle (+ (- yaw bas_angle) (/ pi 2)))
 						; else again
-						(setq wri_yaw_angle_d (+ 90 yaw))))
+						(setf wri_yaw_angle (+ (/ pi 2) yaw))))
+
+                ; Because cl-tranforms tries to change the angles as appropriate,
+                ; -pi can be interpreted as 0 leading to some errors in computation.
+                ; This provides a temporary fix.
+                (when (> wri_yaw_angle pi)
+                    (setf wri_roll_angle (- wri_roll_angle pi))
+                    (setf wri_yaw_angle (- pi wri_yaw_angle)))
 					
 					(if *debug*
 						(progn
-							(format t "Joint 1 : ~,2F ~%" bas_angle_r)
-							(format t "Joint 2 : ~,2F ~%" shl_angle_r)
-							(format t "Joint 3 : ~,2F ~%" elb_angle_r)
-							(format t "Joint 4 : ~,2F ~%" (to-radians wri_pitch_angle_d))
-							(format t "Joint 5 : ~,2F ~%~%" (to-radians wri_yaw_angle_d))))
+							(format t "Joint 1 : ~,2F ~%" bas_angle)
+							(format t "Joint 2 : ~,2F ~%" shl_angle)
+							(format t "Joint 3 : ~,2F ~%" elb_angle)
+							(format t "Joint 4 : ~,2F ~%" wri_roll_angle)
+							(format t "Joint 5 : ~,2F ~%~%" wri_yaw_angle)))
 					;;; Return the list of computed angle
 					(list 
-						bas_angle_r 
-						shl_angle_r 
-						elb_angle_r  
-						(to-radians wri_pitch_angle_d)
-						(to-radians wri_yaw_angle_d))))))))
+						bas_angle 
+						shl_angle 
+						elb_angle  
+						wri_roll_angle
+						wri_yaw_angle))))))))
 
 
 (defun set-joint-positions (joint-positions)
@@ -115,29 +116,6 @@
     "Sends the robotic arm to home"
     (set-joint-positions *home-position*))
 
-(def-cram-function move-to (goal)
-	"Receives a goal destination as a pose, gets the necessary joint angles from the robot
-		and publishes them on the topic."
-	; Retrieves the values from the pose and set them 
-    
-	(let ((position (cl-transforms:origin goal))
-		  (rpy-orientation 
-			(cl-transforms:quaternion->euler 
-				(cl-transforms:orientation goal) :just-values t)))
-		
-		; Retrieve the values and send them to the function
-		(set-joint-positions
-			(compute-joint-angles 
-				; XYZ values
-				(cl-transforms:x position)
-				(cl-transforms:y position)
-				(cl-transforms:z position)
-				
-				; We are using rotations around x and z
-				(to-degrees (car rpy-orientation))
-                (to-degrees (third rpy-orientation))))
-	t))
-
 (def-cram-function grasp (distance)
 	"Takes a grasp distance in metres and sends the joints positions to 
 		apply the opening to the robot."
@@ -147,19 +125,10 @@
             (format t "Sending joints ~A~%" joint-positions))
         (set-joint-positions joint-positions)))
 
-(def-cram-function move-bis (destination)
+(def-cram-function move-to (destination)
     "Takes a cl-transforms:pose object and sends the robot at the
      specified position"
 
-    (let* ((position (cl-transforms:origin destination))
-           (orientation (cl-transforms:orientation destination))
-           (angles (cl-transforms:quaternion->euler orientation)))
+    (set-joint-positions
+        (compute-joint-angles destination)))
 
-		(set-joint-positions
-			(compute-joint-angles 
-				; XYZ values
-				(cl-transforms:x position)
-				(cl-transforms:y position)
-				(cl-transforms:z position)
-                (second angles)
-                (sixth angles)))))			
