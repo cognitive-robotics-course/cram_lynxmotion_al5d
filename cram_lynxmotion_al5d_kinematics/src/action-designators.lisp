@@ -6,29 +6,22 @@
         (desig-prop ?desig (:type :demoing)))	
 
     ; Action designator for picking an object
-    (<- (desig:action-grounding ?desig (pick ?position ?orientation))
+    (<- (desig:action-grounding ?desig (pick ?destination))
         (desig-prop ?desig (:type :picking))
-        (desig-prop ?desig (:position ?position))
-        (desig-prop ?desig (:orientation ?orientation)))
+        (desig-prop ?desig (:from ?destination)))
 
     ; Action designator for placing an object
-    (<- (desig:action-grounding ?desig (place ?position ?orientation))
+    (<- (desig:action-grounding ?desig (place ?destination))
         (desig-prop ?desig (:type :placing))
-        (desig-prop ?desig (:position ?position))
-        (desig-prop ?desig (:orientation ?orientation)))
+        (desig-prop ?desig (:to ?destination)))
 
     ; Action designator for approaching an object
-    (<- (desig:action-grounding ?desig (approach ?position ?orientation))
+    (<- (desig:action-grounding ?desig (approach ?target))
         (desig-prop ?desig (:type :approaching))
-        (desig-prop ?desig (:position ?position))
-        (desig-prop ?desig (:orientation ?orientation)))
+        (desig-prop ?desig (:at ?target)))
 
     ; Action designator for a complete pick and place exercice
-    (<- (desig:action-grounding ?desig (pick-and-place ?source-position 
-                                        ?source-orientation ?dest-position 
-                                        ?dest-orientation))
+    (<- (desig:action-grounding ?desig (pick-and-place ?source ?destination))
         (desig-prop ?desig (:type :picking-and-placing))
-        (desig-prop ?desig (:from ?source-position))
-        (desig-prop ?desig (:is-heading ?source-orientation))
-        (desig-prop ?desig (:to ?dest-position))
-        (desig-prop ?desig (:will-head ?dest-orientation))))
+        (desig-prop ?desig (:from ?source))
+        (desig-prop ?desig (:to ?destination))))

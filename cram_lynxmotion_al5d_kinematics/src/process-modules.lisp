@@ -5,10 +5,8 @@
                         "Lynxmotion AL5D displacement invoked with motion designator `~a'."                         motion-designator)
     (destructuring-bind (command motion) (reference motion-designator)
         (ecase command
-            (move
+            (move-to
                 (move-to motion))
-            (move-bis
-                (move-bis motion))
             (grasp 
                 (grasp motion)))))
 
