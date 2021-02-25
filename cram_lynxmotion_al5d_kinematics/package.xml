@@ -6,7 +6,7 @@
   <maintainer email="vadjibi@andrew.cmu.edu">Vinny Adjibi</maintainer>
   <license>BSD</license>
 
-  <url type="repository">https://github.com/CRAM-Team/cram_lynxmotion_al5d</url>
+  <url type="repository">https://github.com/cognitive-robotics-course/cram_lynxmotion_al5d</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   

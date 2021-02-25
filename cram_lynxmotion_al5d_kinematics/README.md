@@ -1,6 +1,6 @@
 # The CRAM package to control the Lynxmotion AL5D simulator in Gazebo
 
-This package presents an interface based on designators aimed at controlling the [Lynxmotion AL5D robot simulator](https://github.com/CRAM-Team/lynxmotion_al5d_description/) to perform various pick and place exercises. It also interfaces with the camera sensor attached to the robot. 
+This package presents an interface based on designators aimed at controlling the [Lynxmotion AL5D robot simulator](https://github.com/cognitive-robotics-course/lynxmotion_al5d_description/) to perform various pick and place exercises. It also interfaces with the camera sensor attached to the robot. 
 
 The following sections will explain the different capabilities of the package along with examples of how to use them.
 

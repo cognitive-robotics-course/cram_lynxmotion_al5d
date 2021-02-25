@@ -4,11 +4,11 @@
 
 ## About the package
 
-This represents a set of packages created to control the [robot simulator of the Lynxmotion AL5D robot arm](https://github.com/CRAM-Team/lynxmotion_al5d_description) using the CRAM Programming Language (CPL). It comprises three different packages namely:
+This represents a set of packages created to control the [robot simulator of the Lynxmotion AL5D robot arm](https://github.com/cognitive-robotics-course/lynxmotion_al5d_description) using the CRAM Programming Language (CPL). It comprises three different packages namely:
 
 + **cram_lynxmotion_al5d_description**
     + [ ] not working
-    > This package is used to describe the robot model to CRAM in order to spawn and control the robot in the Bullet world. At the moment, the package is not working as expected. At the current stage, spawning the robot in the Bullet world shows the robot with the links in various positions as shown in the image below. [#1](https://github.com/CRAM-Team/cram_lynxmotion_al5d/issues/1)
+    > This package is used to describe the robot model to CRAM in order to spawn and control the robot in the Bullet world. At the moment, the package is not working as expected. At the current stage, spawning the robot in the Bullet world shows the robot with the links in various positions as shown in the image below. [#1](https://github.com/cognitive-robotics-course/cram_lynxmotion_al5d/issues/1)
     
     ![Visualization of the robot in the Bullet world ](screenshots/bullet_visualization.png?raw=true)
 
@@ -27,7 +27,7 @@ roscd
 
 cd ../src/cram
 
-git clone https://github.com/CRAM-Team/cram_lynxmotion_al5d.git
+git clone https://github.com/cognitive-robotics-course/cram_lynxmotion_al5d.git
 ```
 
 After that, you will have to build the package by running the following commands:
